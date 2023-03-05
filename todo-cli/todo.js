@@ -1,75 +1,83 @@
 const todoList = () => {
-  all = [];
+  all = []
   const add = (todoItem) => {
-    all.push(todoItem);
-  };
+    all.push(todoItem)
+  }
   const markAsComplete = (index) => {
-    all[index].completed = true;
-  };
+    all[index].completed = true
+  }
 
   const overdue = () => {
-    over = [];
-    for (let i = 0; i < all.length; i++) {
-      if (Object.values(all[i])[1] === yesterday) {
-        over.push(all[i]);
+    // Write the date check condition here and return the array
+    // of overdue items accordingly.
+    var i;
+      var overdue_lst = [];
+      for (i in all) {
+        if (all[i].dueDate < today) {
+          overdue_lst.push(all[i]);
+        }
       }
+      return overdue_lst;
     }
-
-    return over;
-  };
+  
 
   const dueToday = () => {
-    duet = [];
-    for (let i = 0; i < all.length; i++) {
-      if (Object.values(all[i])[1] === today) {
-        duet.push(all[i]);
+    // Write the date check condition here and return the array
+    // of todo items that are due today accordingly.
+    var i;
+      var dueToday_lst = [];
+      for (i in all) {
+        if (all[i].dueDate === today) {
+          dueToday_lst.push(all[i]);
+        }
       }
+      return dueToday_lst;
     }
-
-    return duet;
-  };
+  
 
   const dueLater = () => {
-    duel = [];
-    for (let i = 0; i < all.length; i++) {
-      if (Object.values(all[i])[1] === tomorrow) {
-        duel.push(all[i]);
+    // Write the date check condition here and return the array
+    // of todo items that are due later accordingly.
+    var i;
+    var dueLater_lst = [];
+    for (i in all) {
+      if (all[i].dueDate > today) {
+        dueLater_lst.push(all[i]);
       }
     }
+    return dueLater_lst;
+  }
 
-    return duel;
-  };
-
-  const toDisplayableList = (l) => {
-    a = "";
-    for (let i = 0; i < l.length; i++) {
-      if (Object.values(l[i])[1] === today) {
-        if (Object.values(l[i])[2] === true) {
-          a += "[" + "x] " + Object.values(l[i])[0] + "\n";
-        } else {
-          a += "[ ] " + Object.values(l[i])[0] + " " + "\n";
+  const toDisplayableList = (list) => {
+    // Format the To-Do list here, and return the output string
+    // as per the format given above.
+    var i;
+    var displayList = []
+    for (i=0;i<list.length;i++) {
+      if (list[i].completed === false) {
+        //`[ ] ${i.title} ${i.dueDate}`
+        if (list[i].dueDate===today) {
+          displayList.push(`[ ] ${list[i].title}`)
         }
-      } else {
-        if (Object.values(l[i])[2] === true) {
-          a +=
-            "[" +
-            "x] " +
-            Object.values(l[i])[0] +
-            " " +
-            Object.values(l[i])[1] +
-            "\n";
-        } else {
-          a +=
-            "[ ] " +
-            Object.values(l[i])[0] +
-            " " +
-            Object.values(l[i])[1] +
-            "\n";
+        else {
+          displayList.push(`[ ] ${list[i].title} ${list[i].dueDate}`)
         }
       }
+      else {
+        // `[x] ${i.title} ${i.dueDate}`
+        if (list[i].dueDate===today) {
+          displayList.push(`[x] ${list[i].title}`)
+        }
+        else {
+          displayList.push(`[x] ${list[i].title} ${list[i].dueDate}`)
+        }          
+      }
     }
-    return a;
-  };
+    
+    return displayList.join("\n");
+  }
+  
+
   return {
     all,
     add,
@@ -77,7 +85,7 @@ const todoList = () => {
     overdue,
     dueToday,
     dueLater,
-    toDisplayableList,
+    toDisplayableList
   };
 };
 
@@ -87,41 +95,41 @@ const todoList = () => {
 
 const todos = todoList();
 
-const formattedDate = (d) => {
-  return d.toISOString().split("T")[0];
-};
+const formattedDate = d => {
+  return d.toISOString().split("T")[0]
+}
 
-var dateToday = new Date();
-const today = formattedDate(dateToday);
+var dateToday = new Date()
+const today = formattedDate(dateToday)
 const yesterday = formattedDate(
   new Date(new Date().setDate(dateToday.getDate() - 1))
-);
+)
 const tomorrow = formattedDate(
   new Date(new Date().setDate(dateToday.getDate() + 1))
-);
+)
 
-todos.add({ title: "Submit assignment", dueDate: yesterday, completed: false });
-todos.add({ title: "Pay rent", dueDate: today, completed: true });
-todos.add({ title: "Service Vehicle", dueDate: today, completed: false });
-todos.add({ title: "File taxes", dueDate: tomorrow, completed: false });
-todos.add({ title: "Pay electric bill", dueDate: tomorrow, completed: false });
+todos.add({ title: 'Submit assignment', dueDate: yesterday, completed: false })
+todos.add({ title: 'Pay rent', dueDate: today, completed: true })
+todos.add({ title: 'Service Vehicle', dueDate: today, completed: false })
+todos.add({ title: 'File taxes', dueDate: tomorrow, completed: false })
+todos.add({ title: 'Pay electric bill', dueDate: tomorrow, completed: false })
 
-console.log("My Todo-list\n\n");
+console.log("My Todo-list\n")
 
-console.log("Overdue");
-var overdues = todos.overdue();
-var formattedOverdues = todos.toDisplayableList(overdues);
-console.log(formattedOverdues);
-console.log("\n");
+console.log("Overdue")
+var overdues = todos.overdue()
+var formattedOverdues = todos.toDisplayableList(overdues)
+console.log(formattedOverdues)
+console.log("\n")
 
-console.log("Due Today");
-let itemsDueToday = todos.dueToday();
-let formattedItemsDueToday = todos.toDisplayableList(itemsDueToday);
-console.log(formattedItemsDueToday);
-console.log("\n");
+console.log("Due Today")
+let itemsDueToday = todos.dueToday()
+let formattedItemsDueToday = todos.toDisplayableList(itemsDueToday)
+console.log(formattedItemsDueToday)
+console.log("\n")
 
-console.log("Due Later");
-let itemsDueLater = todos.dueLater();
-let formattedItemsDueLater = todos.toDisplayableList(itemsDueLater);
-console.log(formattedItemsDueLater);
-console.log("\n\n");
+console.log("Due Later")
+let itemsDueLater = todos.dueLater()
+let formattedItemsDueLater = todos.toDisplayableList(itemsDueLater)
+console.log(formattedItemsDueLater)
+console.log("\n\n")
