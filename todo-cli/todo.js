@@ -107,20 +107,17 @@ todos.add({ title: "File taxes", dueDate: tomorrow, completed: false });
 todos.add({ title: "Pay electric bill", dueDate: tomorrow, completed: false });
 
 console.log("My Todo-list\n\n");
-
 console.log("Overdue");
 var overdues = todos.overdue();
 var formattedOverdues = todos.toDisplayableList(overdues);
 console.log(formattedOverdues);
 console.log("\n");
 
-
 console.log("Due Today");
 let itemsDueToday = todos.dueToday();
 let formattedItemsDueToday = todos.toDisplayableList(itemsDueToday);
 console.log(formattedItemsDueToday);
 console.log("\n");
-
 
 
 console.log("Due Later");
